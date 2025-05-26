@@ -179,6 +179,6 @@ app.delete("/api/deletesocketData/:id", (req, res) => {
 });
 
 // Start the server
-server.listen(3001, () => {
-  console.log("Server running on http://localhost:3001");
+server.listen(8042, () => {
+  console.log("Server running on http://localhost:8042");
 });
