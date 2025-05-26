@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Socket.IO Client</title>
+  <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
+</head>
+<body>
+  <script>
+    // Connect to the Socket.IO server
+    const socket = io("http://localhost:3001");
+
+    // Emit the "username" event with a username
+    socket.emit("username", "John Doe");
+
+    // Listen for the "update socketData" event
+    socket.on("update socketData", (data) => {
+      console.log("Updated socket data:", data);
+    });
+  </script>
+</body>
+</html>
