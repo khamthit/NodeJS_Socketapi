@@ -3,7 +3,20 @@ const http = require("http");
 const socketIo = require("socket.io");
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server);
+// const io = socketIo(server);
+
+const io = new socketIo.Server(server, {
+  cors: {
+    origin: "*", // Allow your client's origin
+    // You can also allow multiple origins:
+    // origin: ["http://localhost:3000", "http://localhost:3001"],
+    // Or allow all origins (use with caution in production):
+    // origin: "*",
+    methods: ["GET", "POST"], // Allowed HTTP methods
+    allowedHeaders: ["my-custom-header"], // If you use custom headers
+    credentials: true // If you need to send cookies or authorization headers
+  }
+});
 
 const fs = require("fs");
 
@@ -128,7 +141,7 @@ app.post("/api/addsocketDataAttach", upload.single("file"), (req, res) => {
   if (req.file) {
     // fileUrl = `/uploads/${req.file.filename}`;
     //this is for local c drive directory with IIS    
-    fileUrl = `http://localhost:4478/${req.file.filename}`;
+    fileUrl = `http://10.0.100.31:4478/${req.file.filename}`;
 
     //this is for local c drive directory with express
     // fileUrl = `http://localhost:3001/SOCKETAPI/uploads/${req.file.filename}`;
