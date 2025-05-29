@@ -18,6 +18,15 @@ const io = new socketIo.Server(server, {
   }
 });
 
+const cors = require("cors");
+
+// Enable CORS for your Express API
+app.use(cors({
+  origin: "*", 
+  methods: ["GET", "POST", "DELETE"],
+  credentials: true
+}));
+
 const fs = require("fs");
 
 const multer = require("multer");
@@ -129,7 +138,7 @@ app.get("/api/addsocketData", (req, res) => {
 
 //this is for file upload with message
 app.post("/api/addsocketDataAttach", upload.single("file"), (req, res) => {
-  const { username, Message, To } = req.body;
+  const { username, Message, To, Groupchat } = req.body;
   let fileUrl = null;
 
   // Validate input parameters
@@ -149,7 +158,7 @@ app.post("/api/addsocketDataAttach", upload.single("file"), (req, res) => {
   // Generate a random id
   const id = Math.random().toString(36).substr(2, 9);
   // Add the new data to the socketData array
-  const newData = { id, username, Message, fileUrl, To, timestamp: new Date().toISOString() };
+  const newData = { id, username, Message, fileUrl, To, Groupchat, timestamp: new Date().toISOString() };
   socketData.push(newData);
   console.log("Added new data to socketData", newData);
 
