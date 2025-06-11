@@ -40,6 +40,7 @@ const upload = multer({ storage: storage });
 
 // Initialize socket data storage
 let socketData = [];
+let socketDataChatNote = [];
 
 // Middleware
 app.use(express.json());
@@ -99,6 +100,10 @@ function saveToHistory(data) {
 // API Routes
 app.get("/api/socketData", (req, res) => {
   res.json(socketData);
+});
+
+app.get("/api/socketDataChatNote", (req, res) => {
+  res.json(socketDataChatNote);
 });
 
 app.get("/api/socketData/:id", (req, res) => {
@@ -181,11 +186,22 @@ app.post("/api/addsocketTicketChatnote", upload.single("file"), (req, res) => {
     timestamp: new Date().toISOString()
   };
 
-  socketData.push(newData);
+  socketDataChatNote.push(newData);
   saveToHistory(newData);
-  io.emit("addTicketChatNote", socketData);
+  io.emit("addTicketChatNote", socketDataChatNote);
 
   res.status(201).json({ message: "Data added successfully", data: newData });
+});
+
+app.get("/api/socketDataChatNote/:id", (req, res) => {
+  const { id } = req.params;
+  const userData = socketDataChatNote.find(user => user.id === id);
+  
+  if (!userData) {
+    return res.status(404).json({ error: `User with id "${id}" not found` });
+  }
+  
+  res.json(userData);
 });
 
 app.delete("/api/deletesocketData/:id", (req, res) => {
