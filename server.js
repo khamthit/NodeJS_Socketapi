@@ -99,12 +99,15 @@ function saveToHistory(data) {
 
 // API Routes
 app.get("/api/socketData", (req, res) => {
-  res.json(socketData);
+  // res.json(socketData);
+  res.json(socketDataChatNote);
 });
 
 app.get("/api/socketDataChatNote", (req, res) => {
   res.json(socketDataChatNote);
 });
+
+
 
 app.get("/api/socketData/:id", (req, res) => {
   const { id } = req.params;
@@ -193,6 +196,8 @@ app.post("/api/addsocketTicketChatnote", upload.single("file"), (req, res) => {
 
   res.status(201).json({ message: "Data added successfully", data: newData });
 });
+
+
 
 app.post("/api/addsocketTicketChatnoteAdmin", upload.single("file"), (req, res) => {
   const { username, Message, To, Groupchat } = req.body;
